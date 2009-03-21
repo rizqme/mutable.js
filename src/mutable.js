@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008 Rizqi Ahmad
+ * Copyright (c) 2009 Rizqi Ahmad
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,8 @@ var Mutable;
 
 (function(){
 
-var defset = function(){return arguments[1]};
-var defget = function(){return arguments[0]};
+var defset = function(x){this.value = x;};
+var defget = function(){return this.value;};
 
 var List =
 {
@@ -63,10 +63,8 @@ var List =
 Mutable = function(mutator)
 {
 	mutator = mutator || {};
-	
-	var value = mutator.value,
-		setter = mutator.setter || defset,
-		getter = mutator.getter || defget;
+	mutator.setter = mutator.setter || defset;
+	mutator.getter = mutator.getter || defget;
 	
 	var watchers = [];
 	var lock;
@@ -85,26 +83,27 @@ Mutable = function(mutator)
 		watchers = array;
 	};
 	
-	var mutable = function(newval)
+	var mutable = function(value)
 	{
-		var oldval = value;
-		var caller = arguments.callee.caller || {};
+		var old = mutator.value;
+		mutator.caller = arguments.callee.caller || {};
+		mutator.parent = this;
 		if(arguments.length)
 		{
-			if((binding && caller != binding) || (lock && List.indexOf(lock, caller) < 0))
-				return getter.call(caller, value);
+			if((binding && mutator.caller != binding) || (lock && List.indexOf(lock, mutator.caller) < 0))
+				return mutator.getter();
 			
-			value = setter.call(caller, oldval, newval);
-			if(value != oldval)
-				trigger(oldval, value);
+			mutator.setter(value);
+			if(mutator.value != old)
+				trigger(old, mutator.value);
 			
-			return getter.call(caller, value);
+			return mutator.getter();
 		}
 		else
 		{
-			if(caller.binding && !caller.binding.initialized)
-				mutable.watch(caller.binding);
-			return getter.call(caller, value);
+			if(mutator.caller.binding && !mutator.caller.binding.initialized)
+				mutable.watch(mutator.caller.binding);
+			return mutator.getter();
 		}
 	};
 	

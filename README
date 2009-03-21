@@ -1,0 +1,104 @@
+h1.Mutable.js
+
+Mutable.js is a Javascript Getter/Setter Class with support for binding, locking and property watching.
+
+h2.Support
+
+Mutable.js is supported by Firefox, Internet Explorer, Safari and Opera (version 10+)
+
+h2.Usage
+
+h3.Defining
+<pre>
+	var object =
+	{
+		// a variable that convert its assigned value to interger.
+		a: new Mutable({
+			value: 0,
+			setter: function(value)
+			{
+				this.value = parseInt(value);
+			}
+		}),
+		
+		// get a and multiple it by two
+		b: new Mutable({
+			getter: function()
+			{
+				return this.parent.a() * 2;
+			}
+		})
+	};
+</pre>
+
+h3.Binding
+<pre>
+	var a = {};
+	a.value = new Mutable({
+		value: 0,
+		setter: function(x)
+		{
+			this.value = x;
+			alert(x);
+		}
+	});
+	
+	var b = {};
+	b.value = new Mutable({value:1});
+	
+	var c = {};
+	c.value = new Mutable({value:10});
+	
+	a.value.bind(function(){
+		return b.value() * c.value();
+	});
+	// Alert 10
+	
+	b.value(2);
+	// Alert 20
+	
+	c.value(20)
+	// Alert 40
+	
+	a.value.unbind();
+	
+	c.value(15);
+	// no alert
+</pre>
+
+h3.Locking
+<pre>
+	var a = {value: new Mutable({value:0})};
+	
+	function fn1(){a.value(1);};
+	function fn2(){a.value(5);};
+	function fn3(){a.value(10);};
+	
+	a.lock(fn1, fn3);
+	
+	fn1() // a.value = 1
+	fn2() // a.value = 1
+	fn3() // a.value = 10
+	
+	a.lock(fn2); // can't modify lock again
+	fn2() // a.value = 10
+</pre>
+
+h3.Watching
+<pre>
+	var a = {value: new Mutable({value:0})};
+	
+	function fn(oldval, newval){
+		alert('a.value changed from ' + oldval + ' to ' + newval);
+	}
+	
+	a.watch(fn);
+	
+	a.value(1); // alert: a.value changed from 0 to 1
+	a.value(1); // no alert
+	a.value(10); // alert: a.value changed from 1 to 10
+	
+	a.value.unwatch(fn);
+	
+	a.value(12); // no alert
+</pre>

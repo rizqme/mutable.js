@@ -5,23 +5,23 @@ function test(){
 
 	var a = new Mutable({
 			value: 0,
-			setter: function(oldval, newval)
+			setter: function(value)
 			{
-				return newval < 0 ? 0 : newval > 10 ? 10 : newval;
+				this.value = value < 0 ? 0 : value > 10 ? 10 : value;
 			}
 		}),
 
 		b = new Mutable({
 			value: 0,
-			getter: function(value)
+			getter: function()
 			{
-				return value * 10;
+				return this.value * 10;
 			}
 		}),
 
 		c = new Mutable({value: 0}),
 
-		d = new Mutable({value:0, setter: function(oldval, newval){log = newval; return newval;}}),
+		d = new Mutable({value:0, setter: function(value){this.value = log = value;}}),
 
 		e = new Mutable({value: 1});
 
