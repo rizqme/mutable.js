@@ -9,7 +9,7 @@ Mutable.js is supported by Firefox, Internet Explorer, Safari and Opera (version
 h2.Usage
 
 h3.Defining
-<pre>
+<pre><code class="javascript">
 	var object =
 	{
 		// a variable that convert its assigned value to interger.
@@ -29,10 +29,10 @@ h3.Defining
 			}
 		})
 	};
-</pre>
+</code></pre>
 
 h3.Binding
-<pre>
+<pre><code class="javascript">
 	var a = {};
 	a.value = new Mutable({
 		value: 0,
@@ -64,10 +64,10 @@ h3.Binding
 	
 	c.value(15);
 	// no alert
-</pre>
+</code></pre>
 
 h3.Locking
-<pre>
+<pre><code class="javascript">
 	var a = {value: new Mutable({value:0})};
 	
 	function fn1(){a.value(1);};
@@ -82,10 +82,10 @@ h3.Locking
 	
 	a.lock(fn2); // can't modify lock again
 	fn2() // a.value = 10
-</pre>
+</code></pre>
 
 h3.Watching
-<pre>
+<pre><code class="javascript">
 	var a = {value: new Mutable({value:0})};
 	
 	function fn(oldval, newval){
@@ -101,4 +101,4 @@ h3.Watching
 	a.value.unwatch(fn);
 	
 	a.value(12); // no alert
-</pre>
+</code></pre>
