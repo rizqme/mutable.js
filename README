@@ -1,15 +1,19 @@
-h1.Mutable.js
+MUTABLE.JS
 
 Mutable.js is a Javascript Getter/Setter Class with support for binding, locking and property watching.
 
-h2.Support
+SUPPORT
 
 Mutable.js is supported by Firefox, Internet Explorer, Safari and Opera (version 10+)
 
-h2.Usage
+USAGE
 
-h3.Defining
-<pre><code class="javascript">
+Include Mutable.js to your page
+
+DEFINING
+
+--------------- JAVASCRIPT --------------
+
 	var object =
 	{
 		// a variable that convert its assigned value to interger.
@@ -29,10 +33,13 @@ h3.Defining
 			}
 		})
 	};
-</code></pre>
 
-h3.Binding
-<pre><code class="javascript">
+-----------------------------------------
+
+BINDING
+
+--------------- JAVASCRIPT --------------
+
 	var a = {};
 	a.value = new Mutable({
 		value: 0,
@@ -64,10 +71,13 @@ h3.Binding
 	
 	c.value(15);
 	// no alert
-</code></pre>
 
-h3.Locking
-<pre><code class="javascript">
+-----------------------------------------
+
+LOCKING
+
+--------------- JAVASCRIPT --------------
+
 	var a = {value: new Mutable({value:0})};
 	
 	function fn1(){a.value(1);};
@@ -82,10 +92,13 @@ h3.Locking
 	
 	a.lock(fn2); // can't modify lock again
 	fn2() // a.value = 10
-</code></pre>
 
-h3.Watching
-<pre><code class="javascript">
+-----------------------------------------
+
+LOCKING
+
+--------------- JAVASCRIPT --------------
+
 	var a = {value: new Mutable({value:0})};
 	
 	function fn(oldval, newval){
@@ -101,4 +114,5 @@ h3.Watching
 	a.value.unwatch(fn);
 	
 	a.value(12); // no alert
-</code></pre>
+	
+-----------------------------------------
