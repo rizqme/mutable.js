@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		<title>Mutable.js Test Suite</title>
+		<script src="../src/mutable.js" type="text/javascript" charset="utf-8"></script>
+		<script src="test.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			function print(text)
+			{
+				var div = document.createElement('div');
+				div.innerHTML = text;
+				document.body.appendChild(div);
+			};
+		</script>
+		</head>
+
+		<body onload="test();">
+		</body>
+</html>
